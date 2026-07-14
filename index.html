@@ -4,6 +4,13 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Prakhar Jha — AI/ML Engineer</title>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("FKFVSO2koq63fvLJb");
+    })();
+  </script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -992,5 +999,33 @@ document.querySelectorAll('div').forEach(el => {
     el.classList.add('cosmic-planet-morph');
   }
 });
+
+// ── EMAILJS CONTACT FORM ────────────────────────────────────────
+function sendEmail(event) {
+  event.preventDefault();
+  const btn    = document.getElementById('send-btn');
+  const btnTxt = document.getElementById('btn-text');
+  const status = document.getElementById('form-status');
+  btn.disabled       = true;
+  btnTxt.textContent = 'Sending…';
+  status.textContent = '';
+  status.style.color = 'var(--muted)';
+  emailjs.sendForm(
+    'service_pa2nzhm',
+    'template_0otjfek',
+    document.getElementById('contact-form')
+  ).then(function(){
+    btnTxt.textContent = 'Message Sent ✅';
+    status.textContent = '✅ Message delivered! Prakhar will get back to you soon.';
+    status.style.color = 'var(--green)';
+    document.getElementById('contact-form').reset();
+    setTimeout(() => { btn.disabled = false; btnTxt.textContent = 'Send Message →'; }, 3500);
+  }, function(error) {
+    btnTxt.textContent = 'Send Message →';
+    status.textContent = '❌ Failed: ' + (error.text || JSON.stringify(error));
+    status.style.color = 'var(--red)';
+    btn.disabled       = false;
+  });
+}
 </script>
 </html>
